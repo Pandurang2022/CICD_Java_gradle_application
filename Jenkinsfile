@@ -20,20 +20,20 @@ pipeline{
                 }
             }
         }
-    }
-    stage("Docker build and image push") {
-        steps{
-            script{
-                withCredentials([string(credentialsId: 'nexus-docker-pass', variable: 'nexustodocker')]) {
-                    sh '''
-                        docker build -t 192.168.1.16:8083/springapp:${VERSION} .
-                        docker login -u admin -p $nexustodocker 192.168.1.16:8083
-                        docker push 192.168.1.16:8083/springapp:${VERSION}
-                        docker rmi 192.168.1.16:8083/springapp:${VERSION}
-                    '''
+        stage("Docker build and image push") {
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'nexus-docker-pass', variable: 'nexustodocker')]) {
+                        sh '''
+                            docker build -t 192.168.1.16:8083/springapp:${VERSION} .
+                            docker login -u admin -p $nexustodocker 192.168.1.16:8083
+                            docker push 192.168.1.16:8083/springapp:${VERSION}
+                            docker rmi 192.168.1.16:8083/springapp:${VERSION}
+                        '''
+                    }
+                    
                 }
-                
             }
         }
-    }
+    }    
 }
