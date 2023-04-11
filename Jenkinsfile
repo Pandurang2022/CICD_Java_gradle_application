@@ -35,6 +35,15 @@ pipeline{
                 }
             }
         }
+        stage("Helm Chart Validation by Datree"){
+            steps{
+                script{
+                    dir('kubernetes/') {
+                        sh 'helm datree test myapp/'
+                    }
+                }
+            }
+        }
     }
     
     post{
