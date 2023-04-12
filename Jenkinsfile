@@ -44,6 +44,22 @@ pipeline{
                 }
             }
         }
+        stage("Pushing helm chart to nexus") {
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'nexus-docker-pass', variable: 'nexustodocker')]) {
+                        dir('kubernetes/') {
+                            sh '''
+                                helmversion=$(helm show chart ./myapp/ | grep version | cut -d: -f 2 | tr -d " ")
+                                tar -czvf myapp-${helmversion}.tgz myapp/ 
+                                curl -u admin:$nexustodocker http://192.168.1.16:8081/repository/helm-hosted/ --upload-file myapp-${helmversion}.tgz -v 
+                            '''
+                        }    
+                    }
+                    
+                }
+            }
+        }
     }
     
     post{
