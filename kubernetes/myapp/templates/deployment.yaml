@@ -14,8 +14,8 @@ spec:
       labels:
         {{- include "myapp.selectorLabels" . | nindent 8 }}
     spec:
-      imagePullSecrets:
-        - name: nexus-docker-pass
+    #  imagePullSecrets:
+    #    - name: nexus-docker-pass
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

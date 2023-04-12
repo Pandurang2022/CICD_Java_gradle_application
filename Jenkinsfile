@@ -60,6 +60,16 @@ pipeline{
                 }
             }
         }
+        stage('Deploying on Kubernetes') {
+            steps {
+                script{
+                    dir ("kubernetes/"){
+                        sh 'helm upgrade --install --set image.repository="192.168.1.16:8083/springapp" --set image.tag="${VERSION}" myjavaapp myapp/ ' 
+                    }
+                }
+                
+            }
+        }
     }
     
     post{
