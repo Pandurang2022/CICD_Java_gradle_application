@@ -39,7 +39,10 @@ pipeline{
             steps{
                 script{
                     dir('kubernetes/') {
-                        sh 'helm datree test myapp/ --ignore-missing-schemas'
+                        withEnv(['DATREE_TOKEN=0b527d74-30a8-4587-a28b-8d572999c0e8']) {
+                            sh 'helm datree test myapp/ --ignore-missing-schemas'
+                        }
+                        
                     }
                 }
             }
