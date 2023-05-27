@@ -13,6 +13,8 @@ spec:
     metadata:
       labels:
         {{- include "myapp.selectorLabels" . | nindent 8 }}
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: runtime/default
     spec:
     #  imagePullSecrets:
     #    - name: nexus-docker-pass
@@ -25,6 +27,10 @@ spec:
           securityContext:
             # readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop:
+              - NET_RAW
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
