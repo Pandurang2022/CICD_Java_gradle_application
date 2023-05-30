@@ -86,7 +86,9 @@ pipeline{
         stage('Verifying app deployment'){
             steps{
                 script{
-                    sh 'kubectl run curl --image=curlimages/curl -i --rm --restart=Never -- curl myjavaapp-myapp:80'
+                    timeout(2) {
+                        sh 'kubectl run curl --image=curlimages/curl -i --rm --restart=Never -- curl myjavaapp-myapp:80'
+                    }
                 }
             }
         }
